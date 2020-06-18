@@ -23,7 +23,8 @@ cd AndroidStyling-LintRules
 
 ##### Copy to the lint directory
 
-`cp ./build/libs/styling-lint.jar ~/.android/lint/`
+For all projects: `cp styling-lint/build/libs/styling-lint.jar ~/.android/lint/`  
+For a specific project: `cp styling-lint/build/libs/styling-lint.jar [path-to-project]/[desired-module]/libs`
 
 ##### Verify whether the issues are registered with lint
 
