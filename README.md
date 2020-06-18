@@ -24,7 +24,7 @@ cd AndroidStyling-LintRules
 For all projects: `cp styling-lint/build/libs/styling-lint.jar ~/.android/lint/`  
 For a specific project: `cp styling-lint/build/libs/styling-lint.jar [path-to-project]/[desired-module]/libs`
 
-##### Verify whether the issues are registered with lint
+##### Verify whether the issues are registered with lint (optional)
 
 `lint --show DirectColorInXml`
 
