@@ -1,12 +1,10 @@
-![Publish to Bintray](https://github.com/GuilhE/AndroidStyling-LintRules/workflows/Publish%20to%20Bintray/badge.svg)  
+![Publish to Bintray](https://github.com/GuilhE/AndroidStyling-LintRules/workflows/Publish%20to%20Bintray/badge.svg)  [![Maven Central](https://img.shields.io/maven-central/v/com.github.guilhe/styling-lint.svg)](https://search.maven.org/search?q=g:com.github.guilhe%20AND%20styling-lint) [![Download](https://api.bintray.com/packages/gdelgado/android/AndroidStyling-LintRules/images/download.svg)](https://bintray.com/gdelgado/android/AndroidStyling-LintRules/_latestVersion)
 
 # AndroidStyling-LintRules
 
 A set of lint rules to prevent us from the temptation of using HEX values or direct color resources instead of attributes, when creating our
  layouts either by xml or programmatically.  
 To refresh your knowledge about theming colors: [Material Guidelines](https://material.io/develop/android/theming/color/). 
-
-[![Maven Central](https://img.shields.io/maven-central/v/com.github.guilhe/styling-lint.svg)](https://search.maven.org/search?q=g:com.github.guilhe%20AND%20styling-lint) [![Download](https://api.bintray.com/packages/gdelgado/android/AndroidStyling-LintRules/images/download.svg)](https://bintray.com/gdelgado/android/AndroidStyling-LintRules/_latestVersion)
 
 ## Getting started
 
