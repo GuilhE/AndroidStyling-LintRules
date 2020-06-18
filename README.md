@@ -30,15 +30,21 @@ For a specific project: `cp styling-lint/build/libs/styling-lint.jar [path-to-pr
 
 `lint --show DirectColorInXml`
 
-##### Run lint
-
-`./gradlew lint`
-
 > Note: If you can't run `lint` directly, you may want to include android tools `PATH` in your
  `~/.bash_profile`.
 > (i.e. `PATH=$PATH:~/Library/Android/sdk/tools`)
 >
 > Then run `source ~/.bash_profile`.
+
+##### Configure your build.gradle
+
+`lintChecks fileTree(dir: 'libs', include: 'styling-lint.jar')`  
+`lintChecks(fileTree(mapOf("dir" to "libs", "include" to "styling-lint.jar")))` (if you use `.kts`)
+
+##### Run lint
+
+`./gradlew lint`
+
 
 ## Sample usage
 
