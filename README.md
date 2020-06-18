@@ -6,14 +6,38 @@ A set of lint rules to prevent us from the temptation of using HEX values or dir
  layouts either by xml or programmatically.  
 To refresh your knowledge about theming colors: [Material Guidelines](https://material.io/develop/android/theming/color/). 
 
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.guilhe/styling-lint.svg)](https://search.maven.org/search?q=g:com.github.guilhe%20AND%20styling-lint) [![Download](https://api.bintray.com/packages/gdelgado/android/AndroidStyling-LintRules/images/download.svg)](https://bintray.com/gdelgado/android/AndroidStyling-LintRules/_latestVersion)
+
 ## Getting started
 
-The first step is to include AndroidStyling-LintRules into your project, for example, as a Gradle compile dependency:
+##### Fetch code
 
-```groovy
-lintChecks 'com.github.guilhe:styling-lint:${LATEST_VERSION}'
 ```
-[![Maven Central](https://img.shields.io/maven-central/v/com.github.guilhe/styling-lint.svg)](https://search.maven.org/search?q=g:com.github.guilhe%20AND%20styling-lint) [![Download](https://api.bintray.com/packages/gdelgado/android/AndroidStyling-LintRules/images/download.svg)](https://bintray.com/gdelgado/android/AndroidStyling-LintRules/_latestVersion)
+git git@github.com:GuilhE/AndroidStyling-LintRules.git  
+cd AndroidStyling-LintRules
+```
+
+##### Build the validator
+
+`./gradlew build`
+
+##### Copy to the lint directory
+
+`cp ./build/libs/styling-lint.jar ~/.android/lint/`
+
+##### Verify whether the issues are registered with lint
+
+`lint --show DirectColorInXml`
+
+##### Run lint
+
+`./gradlew lint`
+
+> Note: If you can't run `lint` directly, you may want to include android tools `PATH` in your
+ `~/.bash_profile`.
+> (i.e. `PATH=$PATH:~/Library/Android/sdk/tools`)
+>
+> Then run `source ~/.bash_profile`.
 
 ## Sample usage
 
