@@ -45,14 +45,14 @@ Therefore, in situations like:
     android:textColor="@color/black"/>
 ```
 You'll get a warning advising you to change it:  
-<img src="https://raw.githubusercontent.com/GuilhE/AndroidStyling-LintRules/master/media/img1.png?token=AAUNTE3YJGFDS25GHHFEKBC64D4F2" alt="Warning" width="70%"/>
+<img src="media/img1.png" alt="Warning" width="70%"/>
 
 This rules are not exclusive for layouts:
 ```java
 getColor(R.color.colorPrimary)
 ```
 You'll also get a warning advising you to change it:  
-<img src="https://raw.githubusercontent.com/GuilhE/AndroidStyling-LintRules/master/media/img2.png?token=AAUNTE5UIPRKOGWF3LD5YO264D4IA" alt="Warning" width="70%"/>
+<img src="media/img2.png" alt="Warning" width="70%"/>
 
 In code situations, getting a color from a theme is not that trivial and it involves a bit of boilerplate code.  
 For that reason, [ResourcesProvider-ktx](https://github.com/GuilhE/ResourcesProvider-ktx) may come in hand. It's a helper class to provide
