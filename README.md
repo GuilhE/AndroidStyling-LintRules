@@ -11,7 +11,7 @@ To refresh your knowledge about theming colors: [Material Guidelines](https://ma
 ##### Fetch code
 
 ```
-git git@github.com:GuilhE/AndroidStyling-LintRules.git  
+git clone git@github.com:GuilhE/AndroidStyling-LintRules.git  
 cd AndroidStyling-LintRules
 ```
 
@@ -23,16 +23,6 @@ cd AndroidStyling-LintRules
 
 For all projects: `cp styling-lint/build/libs/styling-lint.jar ~/.android/lint/`  
 For a specific project: `cp styling-lint/build/libs/styling-lint.jar [path-to-project]/[desired-module]/libs`
-
-##### Verify whether the issues are registered with lint (optional)
-
-`lint --show DirectColorInXml`
-
-> Note: If you can't run `lint` directly, you may want to include android tools `PATH` in your
- `~/.bash_profile`.
-> (i.e. `PATH=$PATH:~/Library/Android/sdk/tools`)
->
-> Then run `source ~/.bash_profile`.
 
 ##### Configure your build.gradle
 
