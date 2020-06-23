@@ -1,3 +1,4 @@
 rootProject.name = 'AndroidStyling-LintRules'
 include ':styling-lint'
+include ':checks'
 include ':sample'
