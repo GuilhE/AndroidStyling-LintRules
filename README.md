@@ -11,7 +11,7 @@ To refresh your knowledge about theming colors: [Material Guidelines](https://ma
 The first step is to include AndroidStyling-LintRules into your project, for example, as a Gradle compile dependency:
 
 ```groovy
-compile 'com.github.guilhe:styling-lint:${LATEST_VERSION}'
+implementation 'com.github.guilhe:styling-lint:${LATEST_VERSION}'
 ```
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.guilhe/styling-lint.svg)](https://search.maven.org/search?q=g:com.github.guilhe%20AND%20styling-lint) [![Download](https://api.bintray.com/packages/gdelgado/android/AndroidStyling-LintRules/images/download.svg)](https://bintray.com/gdelgado/android/AndroidStyling-LintRules/_latestVersion)
 
