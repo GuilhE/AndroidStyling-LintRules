@@ -1,11 +1,15 @@
 import com.jfrog.bintray.gradle.BintrayExtension
 import com.jfrog.bintray.gradle.BintrayPlugin
-//import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.dokka.gradle.isAndroidProject
 import java.io.FileInputStream
 import java.util.*
 
 buildscript {
-    repositories { jcenter() }
+    repositories {
+        jcenter()
+    }
+
     dependencies {
         classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5")
         classpath("org.jetbrains.dokka:dokka-gradle-plugin:0.10.1")
@@ -13,8 +17,8 @@ buildscript {
 }
 
 apply(plugin = "maven-publish")
+apply(plugin = "org.jetbrains.dokka")
 plugins.apply(BintrayPlugin::class.java) //https://github.com/bintray/gradle-bintray-plugin/issues/301
-//apply(plugin = "org.jetbrains.dokka")
 
 val bintrayRepo = properties["bintrayRepo"].toString()
 val bintrayName = properties["bintrayName"].toString()
@@ -28,8 +32,8 @@ configure<BintrayExtension> {
         val fis = FileInputStream(project.rootProject.file("local.properties"))
         val prop = Properties()
         prop.load(fis)
-        user = prop.getProperty("bintray.user","")
-        key = prop.getProperty("bintray.apiKey","")
+        user = prop.getProperty("bintray.user", "")
+        key = prop.getProperty("bintray.apiKey", "")
     } else {
         user = System.getenv("bintrayUser")
         key = System.getenv("bintrayApiKey")
@@ -69,23 +73,15 @@ configure<PublishingExtension> {
         from(project.the<SourceSetContainer>()["main"].allSource)
     }
 
-    val javadoc by tasks.existing(Javadoc::class) { isFailOnError = false }
-    val javadocJar by tasks.registering(Jar::class) {
-        dependsOn(javadoc)
+    val dokkaJar by tasks.registering(Jar::class) {
+        group = JavaBasePlugin.DOCUMENTATION_GROUP
+        description = "Assembles Kotlin docs with Dokka"
         archiveClassifier.set("javadoc")
-        from(javadoc)
+        from(tasks.getting(DokkaTask::class) {
+            outputFormat = "html"
+            outputDirectory = "$buildDir/dokka"
+        })
     }
-
-//    val javadocJar by tasks.registering(Jar::class) {
-//        val dokka by tasks.getting(DokkaTask::class) {
-//            outputFormat = "html"
-//            outputDirectory = "$buildDir/dokka"
-//            configuration { jdkVersion = 8 }
-//        }
-//        dependsOn(dokka)
-//        archiveClassifier.set("javadoc")
-//        from(dokka.outputDirectory)
-//    }
 
     publications {
         create<MavenPublication>(bintrayRepo) {
@@ -95,7 +91,7 @@ configure<PublishingExtension> {
 
             from(components["java"])
             artifact(sourcesJar.get())
-            artifact(javadocJar.get())
+            artifact(dokkaJar.get())
 
             pom {
                 packaging = "aar"
