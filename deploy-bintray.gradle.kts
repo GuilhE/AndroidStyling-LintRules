@@ -7,13 +7,14 @@ import java.util.*
 buildscript {
     repositories { jcenter() }
     dependencies {
-        classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5")
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:0.10.1")
+        classpath(Libs.com_jfrog_bintray_gradle_bintray_plugin)
+        classpath(Libs.dokka_gradle_plugin)
     }
 }
 
-apply(plugin = "maven-publish")
-apply(plugin = "org.jetbrains.dokka")
+apply(plugin = Libs.maven_publish)
+apply(plugin = Libs.org_jetbrains_dokka)
+
 plugins.apply(BintrayPlugin::class.java) //https://github.com/bintray/gradle-bintray-plugin/issues/301
 
 val bintrayRepo = properties["bintrayRepo"].toString()
