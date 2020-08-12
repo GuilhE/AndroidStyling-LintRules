@@ -1,11 +1,15 @@
 import com.jfrog.bintray.gradle.BintrayExtension
 import com.jfrog.bintray.gradle.BintrayPlugin
 import org.jetbrains.dokka.gradle.DokkaTask
+import org.jetbrains.dokka.gradle.isAndroidProject
 import java.io.FileInputStream
 import java.util.*
 
 buildscript {
-    repositories { jcenter() }
+    repositories {
+        jcenter()
+    }
+
     dependencies {
         classpath(Libs.com_jfrog_bintray_gradle_bintray_plugin)
         classpath(Libs.dokka_gradle_plugin)
@@ -29,8 +33,8 @@ configure<BintrayExtension> {
         val fis = FileInputStream(project.rootProject.file("local.properties"))
         val prop = Properties()
         prop.load(fis)
-        user = prop.getProperty("bintray.user","")
-        key = prop.getProperty("bintray.apiKey","")
+        user = prop.getProperty("bintray.user", "")
+        key = prop.getProperty("bintray.apiKey", "")
     } else {
         user = System.getenv("bintrayUser")
         key = System.getenv("bintrayApiKey")
@@ -70,14 +74,13 @@ configure<PublishingExtension> {
         from(project.the<SourceSetContainer>()["main"].allSource)
     }
 
-    val dokkaJar by tasks.creating(Jar::class) {
+    val dokkaJar by tasks.registering(Jar::class) {
         group = JavaBasePlugin.DOCUMENTATION_GROUP
         description = "Assembles Kotlin docs with Dokka"
         archiveClassifier.set("javadoc")
         from(tasks.getting(DokkaTask::class) {
             outputFormat = "html"
             outputDirectory = "$buildDir/dokka"
-            configuration { jdkVersion = 8 }
         })
     }
 
@@ -89,7 +92,7 @@ configure<PublishingExtension> {
 
             from(components["java"])
             artifact(sourcesJar.get())
-            artifact(dokkaJar)
+            artifact(dokkaJar.get())
 
             pom {
                 packaging = "aar"
