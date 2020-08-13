@@ -1,7 +1,6 @@
 import com.jfrog.bintray.gradle.BintrayExtension
 import com.jfrog.bintray.gradle.BintrayPlugin
 import org.jetbrains.dokka.gradle.DokkaTask
-import org.jetbrains.dokka.gradle.isAndroidProject
 import java.io.FileInputStream
 import java.util.*
 
@@ -69,19 +68,22 @@ configure<PublishingExtension> {
     val developerName = properties["developerName"].toString()
     val developerEmail = properties["developerEmail"].toString()
 
-    val sourcesJar by tasks.registering(Jar::class) {
-        archiveClassifier.set("sources")
-        from(project.the<SourceSetContainer>()["main"].allSource)
+//    val sourcesJar by tasks.registering(Jar::class) {
+//        archiveClassifier.set("sources")
+//        from(project.the<SourceSetContainer>()["main"].allSource)
+//    }
+
+    val dokka = tasks.withType<DokkaTask> {
+        outputFormat = "html"
+        outputDirectory = "$buildDir/javadoc"
     }
 
     val dokkaJar by tasks.registering(Jar::class) {
+        dependsOn(dokka)
         group = JavaBasePlugin.DOCUMENTATION_GROUP
         description = "Assembles Kotlin docs with Dokka"
         archiveClassifier.set("javadoc")
-        from(tasks.getting(DokkaTask::class) {
-            outputFormat = "html"
-            outputDirectory = "$buildDir/dokka"
-        })
+        from(buildDir.resolve("javadoc"))
     }
 
     publications {
@@ -91,7 +93,8 @@ configure<PublishingExtension> {
             version = libraryVersion
 
             from(components["java"])
-            artifact(sourcesJar.get())
+//            artifact(sourcesJar.get())
+            artifact(tasks.findByName("sourcesJar"))
             artifact(dokkaJar.get())
 
             pom {
