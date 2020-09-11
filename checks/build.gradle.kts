@@ -3,6 +3,8 @@ plugins {
     id("com.android.lint")
 }
 
+apply(plugin = "kotlin")
+
 lintOptions {
     htmlReport = true
     htmlOutput = file("$project.buildDir/outputs/lint/styling-lint-report.html")
@@ -12,6 +14,7 @@ lintOptions {
 }
 
 dependencies {
+    compileOnly(Libs.kotlin)
     compileOnly(Libs.lint_api)
     compileOnly(Libs.lint_checks)
     testImplementation(Libs.lint)

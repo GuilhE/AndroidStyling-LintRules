@@ -9,14 +9,15 @@ object AndroidConstants {
 }
 
 object Versions {
-    const val build_gradle_version = "4.0.1"
+    const val build_gradle_version = "4.1.0-alpha02"
     const val kotlin_gradle_plugin_version = "1.4.0"
     const val bintray_plugin_version = "1.8.5"
 
     const val bintray = "1.8.5"
     const val dokka_version = "1.4.0"
 
-    const val lint_version = "27.0.1"
+    const val kotlin_stdlib_version = "1.4.0"
+    const val lint_version = "27.1.0-alpha02"
     //If the Gradle plugin version is X.Y.Z, then the Lint library version is X+23.Y.Z.
 }
 
@@ -34,6 +35,8 @@ object Libs {
     const val lint_api = "com.android.tools.lint:lint-api:${Versions.lint_version}"
     const val lint_checks = "com.android.tools.lint:lint-checks:${Versions.lint_version}"
     const val lint_tests = "com.android.tools.lint:lint-tests:${Versions.lint_version}"
+
+    const val kotlin = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin_stdlib_version}"
 }
 
 val PluginDependenciesSpec.mavenPublish: PluginDependencySpec

@@ -108,17 +108,17 @@ configure<PublishingExtension> {
                         email.set(developerEmail)
                     }
                 }
-                withXml {
-                    val dependenciesNode = asNode().appendNode("dependencies")
-                    configurations.filter { it.name == "lintPublish" || it.name == "compileOnly" }.forEach {config ->
-                        config.dependencies.forEach {
-                            val dependencyNode = dependenciesNode.appendNode("dependency")
-                            dependencyNode.appendNode("groupId", it.group)
-                            dependencyNode.appendNode("artifactId", it.name)
-                            dependencyNode.appendNode("version", it.version)
-                        }
-                    }
-                }
+//                withXml {
+//                    val dependenciesNode = asNode().appendNode("dependencies")
+//                    configurations.getByName("lintPublish") {
+//                        dependencies.forEach {
+//                            val dependencyNode = dependenciesNode.appendNode("dependency")
+//                            dependencyNode.appendNode("groupId", it.group)
+//                            dependencyNode.appendNode("artifactId", it.name)
+//                            dependencyNode.appendNode("version", it.version)
+//                        }
+//                    }
+//                }
             }
         }
     }

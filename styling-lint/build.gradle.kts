@@ -39,4 +39,4 @@ val dokkaJar by tasks.registering(Jar::class) {
     archiveClassifier.set("javadoc")
     from(dokkaDoc)
 }
-//apply(from = rootProject.file("deploy-bintray.gradle.kts"))
+apply(from = rootProject.file("deploy-bintray.gradle.kts"))
