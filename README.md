@@ -1,5 +1,3 @@
-![Publish to Bintray](https://github.com/GuilhE/AndroidStyling-LintRules/workflows/Publish%20to%20Bintray/badge.svg)
-
 # AndroidStyling-LintRules
 
 A set of lint rules to prevent us from the temptation of using HEX values or direct color resources instead of attributes, when creating our

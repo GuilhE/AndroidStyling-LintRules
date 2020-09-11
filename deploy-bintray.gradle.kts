@@ -82,7 +82,9 @@ configure<PublishingExtension> {
 
             artifact(tasks.named("sourcesJar"))
             artifact(tasks.named("dokkaJar"))
-            artifact("$buildDir/outputs/aar/${artifactId}-release.aar")
+            artifact("$buildDir/outputs/aar/${artifactId}-release.aar") {
+                builtBy(tasks.getByName("assemble"))
+            }
 
             pom {
                 packaging = "aar"
@@ -112,7 +114,6 @@ configure<PublishingExtension> {
 //                    val dependenciesNode = asNode().appendNode("dependencies")
 //                    configurations.getByName("lintPublish") {
 //                        dependencies.forEach {
-//                            println(it)
 //                            val dependencyNode = dependenciesNode.appendNode("dependency")
 //                            dependencyNode.appendNode("groupId", it.group)
 //                            dependencyNode.appendNode("artifactId", it.name)
