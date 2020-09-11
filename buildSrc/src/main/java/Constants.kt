@@ -5,16 +5,16 @@ object AndroidConstants {
     const val minSdkVersion = 23
     const val targetSdkVersion = 30
     const val compileSdkVersions = 30
-    const val buildToolsVersion = "30.0.1"
+    const val buildToolsVersion = "30.0.2"
 }
 
 object Versions {
     const val build_gradle_version = "4.0.1"
-    const val kotlin_gradle_plugin_version = "1.3.72"
+    const val kotlin_gradle_plugin_version = "1.4.0"
     const val bintray_plugin_version = "1.8.5"
 
     const val bintray = "1.8.5"
-    const val dokka_version = "0.10.1"
+    const val dokka_version = "1.4.0"
 
     const val lint_version = "27.0.1"
     //If the Gradle plugin version is X.Y.Z, then the Lint library version is X+23.Y.Z.

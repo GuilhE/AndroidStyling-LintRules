@@ -1,6 +1,5 @@
 import com.jfrog.bintray.gradle.BintrayExtension
 import com.jfrog.bintray.gradle.BintrayPlugin
-import org.jetbrains.dokka.gradle.DokkaTask
 import java.io.FileInputStream
 import java.util.*
 
@@ -11,13 +10,10 @@ buildscript {
 
     dependencies {
         classpath(Libs.com_jfrog_bintray_gradle_bintray_plugin)
-        classpath(Libs.dokka_gradle_plugin)
     }
 }
 
 apply(plugin = Libs.maven_publish)
-apply(plugin = Libs.org_jetbrains_dokka)
-
 plugins.apply(BintrayPlugin::class.java) //https://github.com/bintray/gradle-bintray-plugin/issues/301
 
 val bintrayRepo = properties["bintrayRepo"].toString()
@@ -28,18 +24,22 @@ val siteUrl = properties["siteUrl"].toString()
 val gitUrl = properties["gitUrl"].toString()
 
 configure<BintrayExtension> {
+    var ossPwd = ""
     if (project.rootProject.file("local.properties").exists()) {
         val fis = FileInputStream(project.rootProject.file("local.properties"))
         val prop = Properties()
         prop.load(fis)
         user = prop.getProperty("bintray.user", "")
         key = prop.getProperty("bintray.apiKey", "")
+        ossPwd = prop.getProperty("bintray.ossPwd", "")
     } else {
         user = System.getenv("bintrayUser")
         key = System.getenv("bintrayApiKey")
+        ossPwd = System.getenv("mavenCentralPwd") ?: ""
     }
 
     setPublications(bintrayRepo)
+    override = true
 
     pkg.apply {
         repo = bintrayRepo
@@ -56,6 +56,12 @@ configure<BintrayExtension> {
             vcsTag = libraryVersion
             desc = libraryDescription
             released = Date().toString()
+            if (ossPwd.isNotEmpty())
+                mavenCentralSync.apply {
+                    sync = true
+                    user = user
+                    password = ossPwd
+                }
         }
     }
 }
@@ -68,34 +74,15 @@ configure<PublishingExtension> {
     val developerName = properties["developerName"].toString()
     val developerEmail = properties["developerEmail"].toString()
 
-//    val sourcesJar by tasks.registering(Jar::class) {
-//        archiveClassifier.set("sources")
-//        from(project.the<SourceSetContainer>()["main"].allSource)
-//    }
-
-    val dokka = tasks.withType<DokkaTask> {
-        outputFormat = "html"
-        outputDirectory = "$buildDir/javadoc"
-    }
-
-    val dokkaJar by tasks.registering(Jar::class) {
-        dependsOn(dokka)
-        group = JavaBasePlugin.DOCUMENTATION_GROUP
-        description = "Assembles Kotlin docs with Dokka"
-        archiveClassifier.set("javadoc")
-        from(buildDir.resolve("javadoc"))
-    }
-
     publications {
         create<MavenPublication>(bintrayRepo) {
             groupId = publishedGroupId
             artifactId = artifact
             version = libraryVersion
 
-            from(components["java"])
-//            artifact(sourcesJar.get())
-            artifact(tasks.findByName("sourcesJar"))
-            artifact(dokkaJar.get())
+            artifact(tasks.named("sourcesJar"))
+            artifact(tasks.named("dokkaJar"))
+            artifact("$buildDir/outputs/aar/${artifactId}-release.aar")
 
             pom {
                 packaging = "aar"
@@ -119,6 +106,17 @@ configure<PublishingExtension> {
                         id.set(developerId)
                         name.set(developerName)
                         email.set(developerEmail)
+                    }
+                }
+                withXml {
+                    val dependenciesNode = asNode().appendNode("dependencies")
+                    configurations.filter { it.name == "lintPublish" || it.name == "compileOnly" }.forEach {config ->
+                        config.dependencies.forEach {
+                            val dependencyNode = dependenciesNode.appendNode("dependency")
+                            dependencyNode.appendNode("groupId", it.group)
+                            dependencyNode.appendNode("artifactId", it.name)
+                            dependencyNode.appendNode("version", it.version)
+                        }
                     }
                 }
             }
