@@ -24,18 +24,22 @@ val siteUrl = properties["siteUrl"].toString()
 val gitUrl = properties["gitUrl"].toString()
 
 configure<BintrayExtension> {
-    var ossPwd = ""
+    var ossUser = ""
+    var ossToken = ""
     if (project.rootProject.file("local.properties").exists()) {
         val fis = FileInputStream(project.rootProject.file("local.properties"))
         val prop = Properties()
         prop.load(fis)
         user = prop.getProperty("bintray.user", "")
         key = prop.getProperty("bintray.apiKey", "")
-        ossPwd = prop.getProperty("bintray.ossPwd", "")
+        ossUser = prop.getProperty("bintray.ossUser", "")
+        ossToken = prop.getProperty("bintray.ossToken", "")
     } else {
         user = System.getenv("bintrayUser")
         key = System.getenv("bintrayApiKey")
-        ossPwd = System.getenv("mavenCentralPwd") ?: ""
+        ossUser = System.getenv("mavenUser") ?: ""
+        ossToken = System.getenv("mavenToken") ?: ""
+        println("mavenUser"+System.getenv("mavenUser").isNullOrEmpty()+"mavenToken"+System.getenv("mavenToken").isNullOrEmpty())
     }
 
     setPublications(bintrayRepo)
@@ -56,11 +60,11 @@ configure<BintrayExtension> {
             vcsTag = libraryVersion
             desc = libraryDescription
             released = Date().toString()
-            if (ossPwd.isNotEmpty())
+            if (ossToken.isNotEmpty())
                 mavenCentralSync.apply {
                     sync = true
-                    user = user
-                    password = ossPwd
+                    user = ossUser
+                    password = ossToken
                 }
         }
     }
@@ -83,7 +87,7 @@ configure<PublishingExtension> {
             artifact(tasks.named("sourcesJar"))
             artifact(tasks.named("dokkaJar"))
             artifact("$buildDir/outputs/aar/${artifactId}-release.aar") {
-                builtBy(tasks.getByName("assemble"))
+               builtBy(tasks.getByName("assemble"))
             }
 
             pom {
