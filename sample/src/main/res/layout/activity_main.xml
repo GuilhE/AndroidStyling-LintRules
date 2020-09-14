@@ -10,26 +10,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
-        android:background="#FFFFFF"
+        android:text="Button A"
         android:textAppearance="@android:style/TextAppearance"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias=".3"
-        tools:text="Button A" />
+        tools:ignore="HardcodedText" />
 
     <com.google.android.material.button.MaterialButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="30dp"
-        android:background="@color/colorPrimary"
+        android:text="Button B"
         android:textAppearance="@android:style/TextAppearance"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="@+id/btn1"
         app:layout_constraintStart_toStartOf="@+id/btn1"
         app:layout_constraintTop_toBottomOf="@id/btn1"
         app:rippleColor="@android:color/transparent"
-        tools:text="Button B" />
+        tools:ignore="HardcodedText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

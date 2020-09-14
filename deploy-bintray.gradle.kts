@@ -1,20 +1,20 @@
 import com.jfrog.bintray.gradle.BintrayExtension
 import com.jfrog.bintray.gradle.BintrayPlugin
-//import org.jetbrains.dokka.gradle.DokkaTask
 import java.io.FileInputStream
 import java.util.*
 
 buildscript {
-    repositories { jcenter() }
+    repositories {
+        jcenter()
+    }
+
     dependencies {
-        classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5")
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:0.10.1")
+        classpath(Libs.com_jfrog_bintray_gradle_bintray_plugin)
     }
 }
 
-apply(plugin = "maven-publish")
+apply(plugin = Libs.maven_publish)
 plugins.apply(BintrayPlugin::class.java) //https://github.com/bintray/gradle-bintray-plugin/issues/301
-//apply(plugin = "org.jetbrains.dokka")
 
 val bintrayRepo = properties["bintrayRepo"].toString()
 val bintrayName = properties["bintrayName"].toString()
@@ -24,18 +24,25 @@ val siteUrl = properties["siteUrl"].toString()
 val gitUrl = properties["gitUrl"].toString()
 
 configure<BintrayExtension> {
+    var mavenUser = ""
+    var mavenToken = ""
     if (project.rootProject.file("local.properties").exists()) {
         val fis = FileInputStream(project.rootProject.file("local.properties"))
         val prop = Properties()
         prop.load(fis)
-        user = prop.getProperty("bintray.user","")
-        key = prop.getProperty("bintray.apiKey","")
+        user = prop.getProperty("bintray.user", "")
+        key = prop.getProperty("bintray.apiKey", "")
+        mavenUser = prop.getProperty("maven.user", "")
+        mavenToken = prop.getProperty("maven.token", "")
     } else {
         user = System.getenv("bintrayUser")
         key = System.getenv("bintrayApiKey")
+        mavenUser = System.getenv("mavenUser") ?: ""
+        mavenToken = System.getenv("mavenToken") ?: ""
     }
 
     setPublications(bintrayRepo)
+    override = true
 
     pkg.apply {
         repo = bintrayRepo
@@ -52,6 +59,12 @@ configure<BintrayExtension> {
             vcsTag = libraryVersion
             desc = libraryDescription
             released = Date().toString()
+            if (mavenToken.isNotEmpty())
+                mavenCentralSync.apply {
+                    sync = true
+                    user = mavenUser
+                    password = mavenToken
+                }
         }
     }
 }
@@ -64,38 +77,17 @@ configure<PublishingExtension> {
     val developerName = properties["developerName"].toString()
     val developerEmail = properties["developerEmail"].toString()
 
-    val sourcesJar by tasks.registering(Jar::class) {
-        archiveClassifier.set("sources")
-        from(project.the<SourceSetContainer>()["main"].allSource)
-    }
-
-    val javadoc by tasks.existing(Javadoc::class) { isFailOnError = false }
-    val javadocJar by tasks.registering(Jar::class) {
-        dependsOn(javadoc)
-        archiveClassifier.set("javadoc")
-        from(javadoc)
-    }
-
-//    val javadocJar by tasks.registering(Jar::class) {
-//        val dokka by tasks.getting(DokkaTask::class) {
-//            outputFormat = "html"
-//            outputDirectory = "$buildDir/dokka"
-//            configuration { jdkVersion = 8 }
-//        }
-//        dependsOn(dokka)
-//        archiveClassifier.set("javadoc")
-//        from(dokka.outputDirectory)
-//    }
-
     publications {
         create<MavenPublication>(bintrayRepo) {
             groupId = publishedGroupId
             artifactId = artifact
             version = libraryVersion
 
-            from(components["java"])
-            artifact(sourcesJar.get())
-            artifact(javadocJar.get())
+            artifact(tasks.named("sourcesJar"))
+            artifact(tasks.named("dokkaJar"))
+            artifact("$buildDir/outputs/aar/${artifactId}-release.aar") {
+               builtBy(tasks.getByName("assemble"))
+            }
 
             pom {
                 packaging = "aar"
@@ -121,6 +113,17 @@ configure<PublishingExtension> {
                         email.set(developerEmail)
                     }
                 }
+//                withXml {
+//                    val dependenciesNode = asNode().appendNode("dependencies")
+//                    configurations.getByName("lintPublish") {
+//                        dependencies.forEach {
+//                            val dependencyNode = dependenciesNode.appendNode("dependency")
+//                            dependencyNode.appendNode("groupId", it.group)
+//                            dependencyNode.appendNode("artifactId", it.name)
+//                            dependencyNode.appendNode("version", it.version)
+//                        }
+//                    }
+//                }
             }
         }
     }

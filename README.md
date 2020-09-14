@@ -4,16 +4,16 @@ A set of lint rules to prevent us from the temptation of using HEX values or dir
  layouts either by xml or programmatically.  
 To refresh your knowledge about theming colors: [Material Guidelines](https://material.io/develop/android/theming/color/). 
 
-## Getting started
+## Installation
 
-The first step is to include AndroidStyling-LintRules into your project, for example, as a Gradle compile dependency:
+AndroidStyling-LintRules is distributed through [Maven Central](https://search.maven.org/artifact/com.github.guilhe/styling-lint), [Jcenter](https://bintray.com/gdelgado/android/AndroidStyling-LintRules) and [Jitpack](https://jitpack.io/#GuilhE/AndroidStyling-LintRules).
 
 ```groovy
-lintChecks 'com.github.guilhe:styling-lint:${LATEST_VERSION}'
+implementation 'com.github.guilhe:styling-lint:${LATEST_VERSION}'
 ```
-[![Maven Central](https://img.shields.io/maven-central/v/com.github.guilhe/styling-lint.svg)](https://search.maven.org/search?q=g:com.github.guilhe%20AND%20styling-lint) [![Download](https://api.bintray.com/packages/gdelgado/android/AndroidStyling-LintRules/images/download.svg)](https://bintray.com/gdelgado/android/AndroidStyling-LintRules/_latestVersion)
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.guilhe/styling-lint.svg)](https://search.maven.org/search?q=g:com.github.guilhe%20AND%20styling-lint) [![Download](https://api.bintray.com/packages/gdelgado/android/AndroidStyling-LintRules/images/download.svg)](https://bintray.com/gdelgado/android/AndroidStyling-LintRules/_latestVersion) ![Bintray](https://img.shields.io/bintray/dt/gdelgado/android/AndroidStyling-LintRules)
 
-## Sample usage
+## Usage
 
 Well this is easy, your styles and layouts should always use attributes to get the color from the corresponding theme.  
 Therefore, in situations like:
@@ -44,10 +44,6 @@ For that reason, [ResourcesProvider-ktx](https://github.com/GuilhE/ResourcesProv
 ## Bugs and Feedback
 
 For bugs, questions and discussions please use the [Github Issues](https://github.com/GuilhE/AndroidStyling-LintRules/issues).
-
-## Binaries
-Additional binaries and dependency information for can be found [here](https://search.maven.org/artifact/com.github.guilhe/styling-lint).  
-<a href='https://bintray.com/gdelgado/android/AndroidStyling-LintRules?source=watch' alt='Get automatic notifications about new "AndroidStyling-LintRules" versions'><img src='https://www.bintray.com/docs/images/bintray_badge_bw.png'></a>
 
 ## LICENSE
 
