@@ -24,22 +24,21 @@ val siteUrl = properties["siteUrl"].toString()
 val gitUrl = properties["gitUrl"].toString()
 
 configure<BintrayExtension> {
-    var ossUser = ""
-    var ossToken = ""
+    var mavenUser = ""
+    var mavenToken = ""
     if (project.rootProject.file("local.properties").exists()) {
         val fis = FileInputStream(project.rootProject.file("local.properties"))
         val prop = Properties()
         prop.load(fis)
         user = prop.getProperty("bintray.user", "")
         key = prop.getProperty("bintray.apiKey", "")
-        ossUser = prop.getProperty("bintray.ossUser", "")
-        ossToken = prop.getProperty("bintray.ossToken", "")
+        mavenUser = prop.getProperty("maven.user", "")
+        mavenToken = prop.getProperty("maven.token", "")
     } else {
         user = System.getenv("bintrayUser")
         key = System.getenv("bintrayApiKey")
-        ossUser = System.getenv("mavenUser") ?: ""
-        ossToken = System.getenv("mavenToken") ?: ""
-        println("mavenUser"+System.getenv("mavenUser").isNullOrEmpty()+"mavenToken"+System.getenv("mavenToken").isNullOrEmpty())
+        mavenUser = System.getenv("mavenUser") ?: ""
+        mavenToken = System.getenv("mavenToken") ?: ""
     }
 
     setPublications(bintrayRepo)
@@ -60,11 +59,11 @@ configure<BintrayExtension> {
             vcsTag = libraryVersion
             desc = libraryDescription
             released = Date().toString()
-            if (ossToken.isNotEmpty())
+            if (mavenToken.isNotEmpty())
                 mavenCentralSync.apply {
                     sync = true
-                    user = ossUser
-                    password = ossToken
+                    user = mavenUser
+                    password = mavenToken
                 }
         }
     }
