@@ -17,15 +17,16 @@ apply(plugin = Libs.maven_publish)
 plugins.apply(BintrayPlugin::class.java) //https://github.com/bintray/gradle-bintray-plugin/issues/301
 
 val bintrayRepo = properties["bintrayRepo"].toString()
-val bintrayName = properties["bintrayName"].toString()
 val libraryVersion = properties["libraryVersion"].toString()
 val libraryDescription = properties["libraryDescription"].toString()
 val siteUrl = properties["siteUrl"].toString()
 val gitUrl = properties["gitUrl"].toString()
 
 configure<BintrayExtension> {
+    val bintrayName = properties["bintrayName"].toString()
     var mavenUser = ""
     var mavenToken = ""
+
     if (project.rootProject.file("local.properties").exists()) {
         val fis = FileInputStream(project.rootProject.file("local.properties"))
         val prop = Properties()
@@ -83,8 +84,8 @@ configure<PublishingExtension> {
             artifactId = artifact
             version = libraryVersion
 
-            artifact(tasks.named("sourcesJar"))
-            artifact(tasks.named("dokkaJar"))
+            artifact(tasks.getByName("sourcesJar"))
+            artifact(tasks.getByName("dokkaJar"))
             artifact("$buildDir/outputs/aar/${artifactId}-release.aar") {
                builtBy(tasks.getByName("assemble"))
             }
