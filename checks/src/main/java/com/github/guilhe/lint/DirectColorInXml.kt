@@ -15,7 +15,8 @@ class DirectColorInXml : ResourceXmlDetector() {
     }
 
     override fun visitAttribute(context: XmlContext, attribute: Attr) {
-        if (attribute.value.startsWith("#")) {
+        val ignore = attribute.namespaceURI == "http://schemas.android.com/tools"
+        if (ignore.not() && attribute.value.startsWith("#")) {
             reportUsage(context, attribute)
         }
     }

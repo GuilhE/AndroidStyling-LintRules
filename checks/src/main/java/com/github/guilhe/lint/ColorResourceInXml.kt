@@ -18,9 +18,9 @@ class ColorResourceInXml : ResourceXmlDetector() {
     }
 
     override fun visitAttribute(context: XmlContext, attribute: Attr) {
-        if (attribute.value != "@android:color/transparent" &&
-            (attribute.value.startsWith("@color/") || (attribute.value.startsWith("@android:color/")))
-        ) {
+        val ignore = attribute.namespaceURI == "http://schemas.android.com/tools"
+                || attribute.value == "@android:color/transparent"
+        if (ignore.not() && (attribute.value.startsWith("@color/") || attribute.value.startsWith("@android:color/"))) {
             reportUsage(context, attribute)
         }
     }
@@ -45,7 +45,10 @@ class ColorResourceInXml : ResourceXmlDetector() {
                 priority = 7,
                 severity = Severity.WARNING,
                 androidSpecific = true,
-                implementation = Implementation(ColorResourceInXml::class.java, Scope.RESOURCE_FILE_SCOPE)
+                implementation = Implementation(
+                    ColorResourceInXml::class.java,
+                    Scope.RESOURCE_FILE_SCOPE
+                )
             )
     }
 }
