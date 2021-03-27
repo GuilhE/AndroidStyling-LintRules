@@ -1,4 +1,5 @@
 # AndroidStyling-LintRules
+[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-AndroidStyling--LintRules-brightgreen.svg?style=flat)](https://android-arsenal.com/details/1/8238)
 
 A set of lint rules to prevent us from the temptation of using HEX values or direct color resources instead of attributes, when creating our
  layouts either by xml or programmatically.  
