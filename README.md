@@ -7,12 +7,12 @@ To refresh your knowledge about theming colors: [Material Guidelines](https://ma
 
 ## Installation
 
-AndroidStyling-LintRules is distributed through [Maven Central](https://search.maven.org/artifact/com.github.guilhe/styling-lint), [Jcenter](https://bintray.com/gdelgado/android/AndroidStyling-LintRules) and [Jitpack](https://jitpack.io/#GuilhE/AndroidStyling-LintRules).
+AndroidStyling-LintRules is distributed through [Maven Central](https://search.maven.org/artifact/com.github.guilhe/styling-lint) and [Jitpack](https://jitpack.io/#GuilhE/AndroidStyling-LintRules).
 
 ```groovy
 implementation 'com.github.guilhe:styling-lint:${LATEST_VERSION}'
 ```
-[![Maven Central](https://img.shields.io/maven-central/v/com.github.guilhe/styling-lint.svg)](https://search.maven.org/search?q=g:com.github.guilhe%20AND%20styling-lint) [![Download](https://api.bintray.com/packages/gdelgado/android/AndroidStyling-LintRules/images/download.svg)](https://bintray.com/gdelgado/android/AndroidStyling-LintRules/_latestVersion) ![Bintray](https://img.shields.io/bintray/dt/gdelgado/android/AndroidStyling-LintRules)
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.guilhe/styling-lint.svg)](https://search.maven.org/search?q=g:com.github.guilhe%20AND%20styling-lint)
 
 ## Usage
 
